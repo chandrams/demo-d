@@ -1,0 +1,4 @@
+[submodule "demo2"]
+	path = demo2
+	url = https://github.com/chandrams/demo2.git
+	branch = main

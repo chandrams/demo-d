@@ -1,8 +1,6 @@
 name: Update Submodule and Create PR
 
 on:
-  schedule:
-    - cron: '*/60 * * * *' # Runs every 60 minutes
   workflow_dispatch: # Allows manual triggering
 
 jobs:

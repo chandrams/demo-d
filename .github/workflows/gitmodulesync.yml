@@ -1,4 +1,4 @@
-name: Update Submodule and Create PR
+name: Update git submodule and raise PR
 
 on:
   workflow_dispatch: # Allows manual triggering
@@ -16,11 +16,6 @@ jobs:
         with:
           submodules: true
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Update Submodule
         run: |
@@ -43,7 +38,6 @@ jobs:
           branch: update-submodule
           title: "Auto-update submodule"
           body: "This PR updates the submodule to the latest upstream changes."
-          base: main # Change this if your default branch is different
+          base: main
           labels: |
-            automated
             submodule-update

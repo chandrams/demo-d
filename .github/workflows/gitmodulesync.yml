@@ -1,0 +1,51 @@
+name: Update Submodule and Create PR
+
+on:
+  schedule:
+    - cron: '*/60 * * * *' # Runs every 60 minutes
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Downstream Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update Submodule
+        run: |
+          git submodule update --remote --merge
+          if [[ -n $(git status --porcelain) ]]; then
+            git checkout -b update-submodule-$(date +%s)
+            git add .
+            git commit -m "Update submodule to latest commit"
+            git push origin HEAD
+          else
+            echo "No changes detected in submodule."
+            exit 0
+          fi
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update submodule to latest commit"
+          branch: update-submodule
+          title: "Auto-update submodule"
+          body: "This PR updates the submodule to the latest upstream changes."
+          base: main # Change this if your default branch is different
+          labels: |
+            automated
+            submodule-update

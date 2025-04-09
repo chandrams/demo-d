@@ -24,11 +24,15 @@ jobs:
           if [[ -n $(git status --porcelain) ]]; then
             branch=$(date +%s)
             git checkout -b update-submodule-$branch
+            git branch
             git status
             git add .
+            echo "git commit"
             git commit -m "Update submodule to latest commit"
             git log
+            echo "git push"
             git push origin update-submodule-$branch
+            echo "Done"
           else
             echo "No changes detected in submodule."
             exit 0

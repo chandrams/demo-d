@@ -39,6 +39,8 @@ jobs:
             BRANCH="update-submodule-$(date +'%Y%m%d-%H%M%S')"
             git checkout -b $BRANCH
             git commit -m "Update submodule to latest commit"
+            git log -n 3 --submodule
+
             git push origin $BRANCH
             echo "updated=true" >> "$GITHUB_OUTPUT"
             echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"

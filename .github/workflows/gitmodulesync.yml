@@ -20,18 +20,19 @@ jobs:
 
       - name: Update Submodule
         run: |
+          BRANCH_NAME="update-submodule-${GITHUB_RUN_ID}"
           ls
           git submodule update --remote --merge
           
           if [[ -n $(git status --porcelain) ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git checkout -b update-submodule
+            git checkout -b $BRANCH_NAME
             git branch
             git status
             git add .
             git commit -m "Update submodule to latest commit"
-            git push origin update-submodule
+            git push origin $BRANCH_NAME
             echo "Done"
           else
             echo "No changes detected in submodule."
@@ -43,7 +44,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Update submodule to latest commit"
-          branch: update-submodule
+          branch: ${{ env.BRANCH_NAME }}
           title: "Auto-update submodule"
           body: "This PR updates the submodule to the latest upstream changes."
           base: main

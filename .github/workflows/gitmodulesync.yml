@@ -21,22 +21,17 @@ jobs:
       - name: Update Submodule
         run: |
           ls
-          echo "git submodule update"
           git submodule update --remote --merge
-          echo "git submodule update...done"
+          
           if [[ -n $(git status --porcelain) ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            branch=$(date +%s)
-            git checkout -b update-submodule-$branch
+            git checkout -b update-submodule
             git branch
             git status
             git add .
-            echo "git commit"
             git commit -m "Update submodule to latest commit"
-            git log
-            echo "git push"
-            git push origin update-submodule-$branch
+            git push origin update-submodule
             echo "Done"
           else
             echo "No changes detected in submodule."

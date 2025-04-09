@@ -1,0 +1,55 @@
+name: Auto Update Submodule
+
+on:
+ 
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update submodule
+        id: update-submodule
+        run: |
+          git submodule update --remote --merge
+          git add demo2
+
+          if git diff --cached --quiet; then
+            echo "No submodule update."
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          else
+            BRANCH="update-submodule-$(date +'%Y%m%d-%H%M%S')"
+            git checkout -b $BRANCH
+            git commit -m "Update submodule to latest commit"
+            git push origin $BRANCH
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+            echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create Pull Request
+        if: steps.update-submodule.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update submodule to latest commit"
+          branch: ${{ steps.update-submodule.outputs.branch }}
+          title: "Auto-update submodule"
+          body: "This PR updates the submodule to the latest upstream commit."
+          base: main

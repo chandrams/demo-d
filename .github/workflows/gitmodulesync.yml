@@ -19,6 +19,7 @@ jobs:
 
       - name: Update Submodule
         run: |
+          ls
           git submodule update --remote --merge
           if [[ -n $(git status --porcelain) ]]; then
             branch=$(date +%s)

@@ -18,9 +18,14 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check token permissions
+        run: gh auth status
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Update Submodule
         run: |
-          
+       
           git submodule update --remote --merge
           git add demo2
           

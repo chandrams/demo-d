@@ -20,7 +20,9 @@ jobs:
       - name: Update Submodule
         run: |
           ls
+          echo "git submodule update"
           git submodule update --remote --merge
+          echo "git submodule update...done"
           if [[ -n $(git status --porcelain) ]]; then
             branch=$(date +%s)
             git checkout -b update-submodule-$branch

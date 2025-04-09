@@ -24,14 +24,12 @@ jobs:
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
          
           git submodule update --remote --merge
+          git add demo2
           
-          if [[ -n $(git status --porcelain) ]]; then
+          if [[ -n $(git diff --cached) ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git checkout -b $BRANCH_NAME
-            git branch
-            git status
-            git add .
             git commit -m "Update submodule to latest commit"
             git push origin $BRANCH_NAME
             echo "Done"

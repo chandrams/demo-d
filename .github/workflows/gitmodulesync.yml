@@ -21,12 +21,13 @@ jobs:
         run: |
           git submodule update --remote --merge
           if [[ -n $(git status --porcelain) ]]; then
-            git checkout -b update-submodule
+            branch=$(date +%s)
+            git checkout -b update-submodule-$branch
             git status
             git add .
             git commit -m "Update submodule to latest commit"
             git log
-            git push origin update-submodule
+            git push origin update-submodule-$branch
           else
             echo "No changes detected in submodule."
             exit 0

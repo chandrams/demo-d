@@ -42,7 +42,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           commit-message: "Update submodule to latest commit"
           title: "Auto-update submodule"
           body: "This PR updates the submodule to the latest upstream changes."

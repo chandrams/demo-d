@@ -56,3 +56,4 @@ jobs:
           title: "Auto-update submodule"
           body: "This PR updates the submodule to the latest upstream commit."
           base: main
+          rebase: false

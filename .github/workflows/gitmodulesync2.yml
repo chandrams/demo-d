@@ -48,12 +48,12 @@ jobs:
 
       - name: Create Pull Request
         if: steps.update-submodule.outputs.updated == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Update submodule to latest commit"
-          branch: ${{ steps.update-submodule.outputs.branch }}
-          title: "Auto-update submodule"
-          body: "This PR updates the submodule to the latest upstream commit."
-          base: main
-          rebase: false
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+         gh pr create \
+          --title "Auto-update submodule" \
+          --body "This PR updates the submodule to the latest upstream commit." \
+          --base main \
+          --head ${{ steps.update-submodule.outputs.branch }}
+ 

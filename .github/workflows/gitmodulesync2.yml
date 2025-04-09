@@ -47,6 +47,7 @@ jobs:
           fi
 
       - name: Create Pull Request
+        if: steps.update-submodule.outputs.updated == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

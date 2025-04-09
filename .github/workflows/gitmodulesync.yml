@@ -12,9 +12,10 @@ jobs:
 
     steps:
       - name: Checkout Downstream Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Submodule
@@ -24,6 +25,8 @@ jobs:
           git submodule update --remote --merge
           echo "git submodule update...done"
           if [[ -n $(git status --porcelain) ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
             branch=$(date +%s)
             git checkout -b update-submodule-$branch
             git branch

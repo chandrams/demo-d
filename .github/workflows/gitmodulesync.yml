@@ -21,7 +21,8 @@ jobs:
       - name: Update Submodule
         run: |
           BRANCH_NAME="update-submodule-${GITHUB_RUN_ID}"
-          ls
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+         
           git submodule update --remote --merge
           
           if [[ -n $(git status --porcelain) ]]; then

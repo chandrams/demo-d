@@ -32,7 +32,10 @@ jobs:
           if [[ -n $(git diff --cached) ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git commit -m "Update submodule to latest commit"
+            OLD=$(git ls-tree HEAD path/to/submodule | awk '{print $3}')
+            NEW=$(git -C path/to/submodule rev-parse HEAD)
+            echo "Update submodule from $OLD to $NEW"
+            git commit -m "Update submodule from $OLD to $NEW"
             echo "Done"
           else
             echo "No changes detected in submodule."

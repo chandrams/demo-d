@@ -34,7 +34,7 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             OLD=$(git ls-tree HEAD demo2 | awk '{print $3}')
             NEW=$(git -C demo2 rev-parse HEAD)
-            echo "Update submodule from $OLD to $NEW"
+            echo "UPDATE_MSG=Update submodule from $OLD to $NEW" >> $GITHUB_ENV
             git commit -m "Update submodule from $OLD to $NEW"
             echo "Done"
           else
@@ -46,8 +46,8 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Update submodule to latest commit"
+          commit-message: ${{ env.UPDATE_MSG }}
           title: "Auto-update submodule"
-          body: "This PR updates the submodule to the latest upstream changes."
+          body: ${{ env.UPDATE_MSG }}
           base: main
           

@@ -33,7 +33,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             OLD=$(git ls-tree HEAD demo2 | awk '{print $3}' | cut -c1-7)
-            NEW=$(git -C demo2 rev-parse --short=7 HEAD)
+            NEW=$(git -C demo2 rev-parse HEAD | cut -c1-7)
             echo "UPDATE_MSG=Update demo2 digest from $OLD to $NEW" >> $GITHUB_ENV
             MSG="Update demo2 digest to $NEW"
             echo "MSG=$MSG" >> $GITHUB_ENV

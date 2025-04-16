@@ -36,7 +36,7 @@ jobs:
             NEW=$(git -C demo2 rev-parse --short HEAD)
             echo "UPDATE_MSG=Update demo2 digest from $OLD to $NEW" >> $GITHUB_ENV
             echo "MSG=Update demo2 digest to $NEW" >> $GITHUB_ENV
-            git commit -m "Update submodule from $OLD to $NEW"
+            git commit -m $MSG
             echo "Done"
           else
             echo "No changes detected in submodule."

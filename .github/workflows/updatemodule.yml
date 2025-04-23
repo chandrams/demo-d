@@ -1,8 +1,7 @@
-name: Update git submodule
+name: Update mvp git submodule
 
 on:
-  schedule:
-    - cron: "0 0 * * *" # Runs this workflow every day at midnight
+ 
   workflow_dispatch: # For manually triggering the workflow
 
 jobs:

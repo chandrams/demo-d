@@ -50,4 +50,4 @@ jobs:
           commit-message: ${{ env.MSG }}
           title: ${{ env.MSG }}
           body: ${{ env.UPDATE_MSG }}
-          base: main
+          base: mvp_demo

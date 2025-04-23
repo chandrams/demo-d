@@ -15,6 +15,7 @@ jobs:
       - name: Checkout Downstream Repository
         uses: actions/checkout@v4
         with:
+          ref: mvp_demo
           submodules: recursive
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
